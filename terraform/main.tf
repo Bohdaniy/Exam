@@ -60,7 +60,7 @@ user_data = <<-EOF
   sudo usermod -aG docker ubuntu
   newgrp docker
   docker pull bohdaniy/exam:latest
-  docker run -it bohdaniy/exam:latest
+  docker run -id bohdaniy/exam:latest
   EOF
   tags = {
     Name = "webapp_instance"
