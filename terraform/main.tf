@@ -6,11 +6,18 @@ terraform {
       version = "~> 5.0"
     }
   }
+backend "s3" {
+  bucket = "lab-my-tf-state-13"
+  key = "terraform.tfstate"
+  region = "us-east-1"
+  dynamodb_table = "lab-my-tf-lockid"
 }
+}
+
 
 # Configure the AWS provider
 provider "aws" {
-  region     = "eu-central-1"
+  region     = "us-east-1"
 }
 
 resource "aws_security_group" "web_app" {
@@ -42,9 +49,19 @@ resource "aws_security_group" "web_app" {
 }
 
 resource "aws_instance" "webapp_instance" {
-  ami           = "ami-0669b163befffbdfc"
+  ami           = "ami-0866a3c8686eaeeba"
   instance_type = "t2.micro"
   security_groups= ["web_app"]
+user_data = <<-EOF
+  #!/bin/bash
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sudo sh get-docker.sh
+  sudo groupadd docker
+  sudo usermod -aG docker ubuntu
+  newgrp docker
+  docker pull bohdaniy/laboratory5:latest
+  docker run -id bohdaniy/laboratory5:latest
+  EOF
   tags = {
     Name = "webapp_instance"
   }
