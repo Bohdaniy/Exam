@@ -59,8 +59,8 @@ user_data = <<-EOF
   sudo groupadd docker
   sudo usermod -aG docker ubuntu
   newgrp docker
-  docker pull bohdaniy/laboratory5:latest
-  docker run -id bohdaniy/laboratory5:latest
+  docker pull bohdaniy/exam:latest
+  docker run -it bohdaniy/exam:latest
   EOF
   tags = {
     Name = "webapp_instance"
